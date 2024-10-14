@@ -31,8 +31,15 @@ export class Database {
     this.#persist()
   }
 
-  select(table) {
-    const data = this.#database[table] ?? []
+  select(table, search) {
+    let data = this.#database[table] ?? []
+
+    if (search) {
+      data = data.filter((row) => 
+          row.title.toUpperCase().includes(search.toUpperCase()) || 
+          row.description.toUpperCase().includes(search.toUpperCase()))
+    }
+
     return data
   }
 }
