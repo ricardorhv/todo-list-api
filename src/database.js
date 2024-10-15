@@ -58,4 +58,11 @@ export class Database {
 
     this.#persist()
   }
+
+  delete(table, id) {
+    const tasks = this.#database[table]
+
+    this.#database[table] = tasks.filter((task) => task.id != id)
+    this.#persist()
+  }
 }

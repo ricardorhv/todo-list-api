@@ -46,7 +46,7 @@ export const routes = [
         return res.writeHead(404).end()
       }
       
-      if (!title && !description) {
+      if (!title && description) {
         return res.writeHead(400).end()
       }
       
@@ -58,6 +58,22 @@ export const routes = [
       }
 
       database.update('tasks', updatedTask)
+      return res.writeHead(204).end()
+    }
+  },
+  {
+    path: buildRoutePath('/tasks/:taskId'),
+    method: 'DELETE',
+    handler: (req, res) => {
+      const { taskId } = req.params
+      const tasks = database.select("tasks")
+      const task = tasks.find((task) => task.id == taskId)
+      
+      if (!task) {
+        return res.writeHead(404).end()
+      }
+
+      database.delete('tasks', taskId)
       return res.writeHead(204).end()
     }
   }
