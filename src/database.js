@@ -42,4 +42,20 @@ export class Database {
 
     return data
   }
+
+  update(table, data) {
+    const tasks = this.#database[table]
+
+    this.#database[table] = tasks.map((task) => {
+      if (task.id === data.id) {
+        return {
+          ...data
+        }
+      }
+
+      return task
+    })
+
+    this.#persist()
+  }
 }
