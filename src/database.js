@@ -65,4 +65,14 @@ export class Database {
     this.#database[table] = tasks.filter((task) => task.id != id)
     this.#persist()
   }
+
+  patch(table, data) {
+    this.#database[table] = this.#database[table].map((row) => {
+      if (row.id === data.id) {
+        return data
+      }
+
+      return row
+    })
+  }
 }
