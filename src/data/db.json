@@ -1,12 +1,1 @@
-{
-  "tasks": [
-    {
-      "id": "f91555f9-ed14-4678-9eac-6aef8fb68d2b",
-      "title": "Testando PUT 2",
-      "description": "Isso é um teste",
-      "completed_at": null,
-      "created_at": "2024-10-14T11:51:49.559Z",
-      "updated_at": "2024-10-15T12:27:55.754Z"
-    }
-  ]
-}
+{"tasks":[]}

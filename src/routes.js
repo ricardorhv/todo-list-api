@@ -1,3 +1,4 @@
+import { parse } from "csv-parse/sync"
 import { Database } from "./database.js"
 import { buildRoutePath } from "./utils/build-route-path.js"
 
@@ -78,6 +79,14 @@ export const routes = [
     }
   },
   {
+    path: buildRoutePath('/tasks'),
+    method: 'DELETE',
+    handler: (req, res) => {
+      database.deleteAll('tasks')
+      return res.writeHead(204).end()
+    }
+  },
+  {
     path: buildRoutePath('/tasks/:taskId/complete'),
     method: 'PATCH',
     handler: (req, res) => {
@@ -102,6 +111,39 @@ export const routes = [
       }
 
       database.patch('tasks', updatedTask)
+
+      return res.writeHead(204).end()
+    }
+  },
+  {
+    path: buildRoutePath('/tasks/import-file'),
+    method: 'POST',
+    handler: async (req, res) => {
+      const { file } = req
+
+      if (!file) {
+        return res.writeHead(400).end()
+      }
+
+      for await (const row of file) {
+        const { title, description } = row
+
+        if (!title && !description) {
+          return res.writeHead(400).end()
+        }
+        const task = {
+          title: title ?? '',
+          description: description ?? ''
+        }
+
+        await fetch('http://localhost:3000/tasks', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(task)
+        })
+      }
 
       return res.writeHead(204).end()
     }

@@ -66,6 +66,11 @@ export class Database {
     this.#persist()
   }
 
+  deleteAll(table) {
+    this.#database[table] = []
+    this.#persist()
+  }
+
   patch(table, data) {
     this.#database[table] = this.#database[table].map((row) => {
       if (row.id === data.id) {
